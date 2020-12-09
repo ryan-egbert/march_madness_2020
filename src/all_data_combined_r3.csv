@@ -1,0 +1,17 @@
+YEAR,ROUND,TEAM1,TEAM1SEED,TEAM1REC,TEAM1RPI,TEAM1TOP50,TEAM1SCORE,TEAM2,TEAM2SEED,TEAM2REC,TEAM2RPI,TEAM2TOP50,TEAM2SCORE,WINNINGTEAM
+2020,3,gonzaga,1,0.939,1,0.75,0,oregon,4,0.774,12,0.583,0,1
+2020,3,oregon,4,0.774,12,0.583,0,gonzaga,1,0.939,1,0.75,0,0
+2020,3,sandiegost,2,0.935,4,0.8,0,byu,6,0.742,9,0.375,0,1
+2020,3,byu,6,0.742,9,0.375,0,sandiegost,2,0.935,4,0.8,0,0
+2020,3,kansas,1,0.9,2,0.8,0,auburn,5,0.806,27,0.7,0,1
+2020,3,auburn,5,0.806,27,0.7,0,kansas,1,0.9,2,0.8,0,0
+2020,3,kentucky,2,0.806,21,0.75,0,duke,3,0.806,6,0.625,0,1
+2020,3,duke,3,0.806,6,0.625,0,kentucky,2,0.806,21,0.75,0,0
+2020,3,dayton,1,0.935,3,0.714,0,butler,5,0.71,19,0.625,0,1
+2020,3,butler,5,0.71,19,0.625,0,dayton,1,0.935,3,0.714,0,0
+2020,3,floridast,2,0.839,10,0.667,0,westvirginia,3,0.677,17,0.462,0,1
+2020,3,westvirginia,3,0.677,17,0.462,0,floridast,2,0.839,10,0.667,0,0
+2020,3,baylor,1,0.867,5,0.846,0,louisville,4,0.774,8,0.4,0,1
+2020,3,louisville,4,0.774,8,0.4,0,baylor,1,0.867,5,0.846,0,0
+2020,3,creighton,2,0.767,11,0.562,0,michiganst,3,0.71,7,0.562,0,1
+2020,3,michiganst,3,0.71,7,0.562,0,creighton,2,0.767,11,0.562,0,0
