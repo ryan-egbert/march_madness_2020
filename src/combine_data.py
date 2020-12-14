@@ -1,10 +1,10 @@
 import pandas as pd
 import pickle
 
-with open("all_data_combined_r6.csv", 'w') as FINAL:
+with open("csv/all_data_combined_r6.csv", 'w') as FINAL:
     FINAL.write("YEAR,ROUND,TEAM1,TEAM1SEED,TEAM1REC,TEAM1RPI,TEAM1TOP50,TEAM1SCORE,TEAM2,TEAM2SEED,TEAM2REC,TEAM2RPI,TEAM2TOP50,TEAM2SCORE,WINNINGTEAM\n")
     with open("../data/csv/2020_MARCH_MADNESS_ROUND6.csv", 'r') as mm:
-        with open("2020.pck", 'rb') as pck:
+        with open("pck/2020.pck", 'rb') as pck:
             all_data_dict = pickle.load(pck)
             firstLine = True
             for linemm in mm:

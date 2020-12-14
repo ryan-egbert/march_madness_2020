@@ -11,7 +11,7 @@ from subprocess import call
 import pickle as pck
 
 # Name of completed data
-CSV = "all_data_combined.csv"
+CSV = "csv/all_data_combined.csv"
 
 # Read CSV into dataframe and drop necessary columns
 features = pd.read_csv(CSV)
@@ -61,7 +61,7 @@ print(f"Accuracy: {score}")
 print("=========================================")
 
 # Dump classifier into pickle file
-with open("top_classifier_vc.pck", 'wb') as p:
+with open("pck/top_classifier_vc.pck", 'wb') as p:
     pck.dump(classifier, p)
 
 # List importances of features

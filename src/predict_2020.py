@@ -14,16 +14,16 @@ from sklearn.tree import export_graphviz
 sc = StandardScaler()
 
 # All rounds, manually updated one at a time
-CSV_round1 = "all_data_combined_r1.csv"
-CSV_round2 = "all_data_combined_r2.csv"
-CSV_round3 = "all_data_combined_r3.csv"
-CSV_round4 = "all_data_combined_r4.csv"
-CSV_round5 = "all_data_combined_r5.csv"
-CSV_round6 = "all_data_combined_r6.csv"
+CSV_round1 = "csv/all_data_combined_r1.csv"
+CSV_round2 = "csv/all_data_combined_r2.csv"
+CSV_round3 = "csv/all_data_combined_r3.csv"
+CSV_round4 = "csv/all_data_combined_r4.csv"
+CSV_round5 = "csv/all_data_combined_r5.csv"
+CSV_round6 = "csv/all_data_combined_r6.csv"
 
 # Load classifier
 classifier = None
-with open("top_classifier.pck", 'rb') as p:
+with open("pck/top_classifier.pck", 'rb') as p:
     classifier = pck.load(p)
 
 # Load round data from CSV

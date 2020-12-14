@@ -37,7 +37,7 @@ for year in range(2000,2021):
     all_years[year] = schools
     KEEPERSDICT = {"SCHOOLNAME": -1, "RPI": -1, "RECORD": -1, "Q1": -1, "1-50": -1, "VTOP100": -1}
 print(all_years)
-with open("data_all_years.pck", 'wb') as p:
+with open("pck/data_all_years.pck", 'wb') as p:
     pk.dump(all_years, p)
         # for year in range(2000,2021):
         #     keepersDict = {}
