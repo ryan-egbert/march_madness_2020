@@ -61,14 +61,14 @@ print(f"Accuracy: {score}")
 print("=========================================")
 
 # Dump classifier into pickle file
-with open("pck/top_classifier_vc.pck", 'wb') as p:
+with open("pck/single_rf.pck", 'wb') as p:
     pck.dump(classifier, p)
 
-# List importances of features
-importances = list(classifier.feature_importances_)
-feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(columns, importances)]
-feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
-[print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances];
+# # List importances of features
+# importances = list(classifier.feature_importances_)
+# feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(columns, importances)]
+# feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
+# [print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances];
 
 
 '''
@@ -77,6 +77,61 @@ different types of classifiers.  I was never able to exceed
 the accuracy that I produces with a single random forest, 
 however.
 '''
+
+classifier1 = RandomForestClassifier(n_estimators=150, random_state=75)
+classifier1.fit(x_train, y_train)
+y_pred = classifier1.predict(x_test)
+print(y_pred)
+print(f"============== Classifier1 ==============")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+score = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {score}")
+print("=========================================")
+
+classifier2 = RandomForestClassifier(n_estimators=250, random_state=75)
+classifier2.fit(x_train, y_train)
+y_pred = classifier2.predict(x_test)
+print(y_pred)
+print(f"============== Classifier2 ==============")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+score = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {score}")
+print("=========================================")
+
+classifier3 = RandomForestClassifier(n_estimators=500, random_state=75)
+classifier3.fit(x_train, y_train)
+y_pred = classifier3.predict(x_test)
+print(y_pred)
+print(f"============== Classifier3 ==============")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+score = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {score}")
+print("=========================================")
+
+classifier4 = RandomForestClassifier(n_estimators=750, random_state=75)
+classifier4.fit(x_train, y_train)
+y_pred = classifier4.predict(x_test)
+print(y_pred)
+print(f"============== Classifier4 ==============")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+score = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {score}")
+print("=========================================")
+
+classifier5 = RandomForestClassifier(n_estimators=900, random_state=75)
+classifier5.fit(x_train, y_train)
+y_pred = classifier5.predict(x_test)
+print(y_pred)
+print(f"============== Classifier5 ==============")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+score = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {score}")
+print("=========================================")
 # rf = RandomForestClassifier(n_estimators=500, random_state=75)
 # rf.fit(x_train, y_train)
 # y_pred = rf.predict(x_test)
@@ -107,24 +162,26 @@ however.
 # print(accuracy_score(y_test, y_pred))
 # print("============================================")
 
-# vc = VotingClassifier(estimators=[
-#     ('rf', rf),
-#     ('ada', ab),
-#     ('dt', dt)
-# ], voting="soft")
+vc = VotingClassifier(estimators=[
+    ('c1', classifier1),
+    ('c2', classifier2),
+    ('c3', classifier3),
+    ('c4', classifier4),
+    ('c5', classifier5),
+], voting="soft")
 
 # # vc = VotingClassifier(estimators=[
 # #     (str(i), c) for c, i in all_classifiers
 # # ], voting="soft")
 
-# vc.fit(x_train, y_train)
-# y_pred = vc.predict(x_test)
+vc.fit(x_train, y_train)
+y_pred = vc.predict(x_test)
 
-# print("\n\n=====================\n\nAll Classifiers, Voting\n\n===================")
-# print(confusion_matrix(y_test, y_pred))
-# print(classification_report(y_test, y_pred))
-# print(accuracy_score(y_test, y_pred))
+print("\n\n=====================\n\nAll Classifiers, Voting\n\n===================")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+print(accuracy_score(y_test, y_pred))
 
-# with open("top_classifier_vc.pck", 'wb') as v:
-#     pck.dump(vc, v)
+with open("top_classifier_vc.pck", 'wb') as v:
+    pck.dump(vc, v)
 
