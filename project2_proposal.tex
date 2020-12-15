@@ -1,0 +1,180 @@
+%Overarching document template
+\documentclass[10pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Package Inclusion    %
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath} % Required for many math properties. AMS stands for American Mathematical Society.
+\usepackage{amssymb} %Required for using many math symbols.
+\usepackage{geometry} % Required for adjusting page dimensions.
+\usepackage[utf8]{inputenc} % Required for inputting international characters.
+\usepackage[none]{hyphenat} % Removes automatic hyphenation (a personal pet peeve of Sam).
+\usepackage{hyperref} % Required to include URLs
+\usepackage{xcolor} % Required to turn URLs the correct colors.
+\usepackage{listings} % Required to display code.
+\usepackage{footnote}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{setspace}
+%\usepackage{fancyhdr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Page settings        %
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set up normal hyperlink colors
+\hypersetup{
+    colorlinks,
+    linkcolor={black!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+% Set up page dimensions.
+\geometry{
+    paper=letterpaper, % 8.5 x 11 paper.
+    top=1in, % Top margin.
+    bottom=1in, % Bottom margin.
+    left=1in, % Left margin.
+    right=1in, % Right margin.
+}
+ % Set up code display settings
+\lstset{
+frame = single, % Box the code
+numbers=left % Show line numbers
+}
+% Set up line and paragraph spacing
+\setlength{\parindent}{0em} % Sets paragraph indentation
+\setlength{\parskip}{1em} % Sets paragraph spacing
+\linespread{1.0} % Sets line spacing
+
+\newcommand{\R}{\mathbb{R}} % To get the symbol for the set of real #s, type "\R"
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\e}{\epsilon}
+\renewcommand{\d}{\delta}
+\newcommand{\D}{\Delta}
+\newcommand{\DD}{\mathbb{D}}
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\renewcommand{\l}{\lambda}
+\newcommand{\ds}{\displaystyle}
+
+\makesavenoteenv{solution}
+%% Document attributes
+%\title{\textbf{Math 3310} -- Homework 4}
+%\author{Ryan Egbert\\A01957665}
+%\date{\today}
+% \pagestyle{headandfoot}
+% \firstpageheader{}{}{}
+% \runningheader{Ryan Egbert - A01957665}{}{CS5000 - Assignment \#5}
+
+\title{NCAA Men’s Basketball "March Madness" Prediction Using Random Forests}
+
+\author{Ryan \textsc{Egbert}}
+
+\date{\today}
+
+
+% Begin the content which will be displayed in the output PDF
+\begin{document}
+\maketitle
+\doublespacing
+%\maketitle
+
+% \begin{center}
+% \bfseries\large
+% Ryan Egbert - A01957665
+
+% % Theory of Computability - Assignment \#5
+
+% \today
+
+% \end{center}
+
+\hrule
+
+\section{Introduction}
+    \subsection{Summary}
+    For Project 2, I decided to build a predictive model for the NCAA Men’s Basketball tournament, otherwise referred to as “March Madness”.  Since early in my life, March Madness has been something that my family and friends have looked forward to with a huge amount of excitement.  As soon as the first week of April ends, we found ourselves getting ready for the following March.  To me, this event is three weeks of pure basketball.\\
+	As one of the most popular events during the entire year, many people decide to participate in a "Bracket Buster" challenge, where individuals try to predict the result of every matchup in the tournament.  With 68 teams participating, this becomes quite the task..  Most of the time, the first round is the easiest to predict.  After that, it becomes more difficult for a few reasons: the teams are better, some teams you predicted may not have advanced, and there could be a lot of emotional reasoning for choosing a specific team over another.  These issues could be resolved by using a model that could choose your predictions for you.  
+    \subsection{Implementation}
+    My model takes 20 years of NCAA basketball data - from the regular season and March Madness tournament - to train, validate, and test random forests which predict each individual game in a March Madness tournament.  Using my model, I was also able to simulate the 2020 March Madness tournament that, unfortunately, was cancelled due to COVID-19.
+    \section{Resources}
+    The data used in this project came from a couple of sources.  Since the scope of this projects exists deeper than tournament data, I needed to pull data from the NCAA regular seasons from the past 20 years as well.\\
+    The data acquired from these sources is stored in the \texttt{data/} directory.
+    \subsection{Source 1 - \texttt{data.world}}
+        The tournament data was pulled from a \texttt{data.world} dataset of March Madness tournament results since 1985.  Because of the sparsity of regular season data, I was forced to reduce this data from nearly 40 years to 20 years.  This data provided me with the results of individual tournament games. 
+    \subsection{Source 2 - NCAA}
+        The regular season data came from the NCAA website.  This website included well organized regular season data (starting in 2000) in PDF format.  I used the Python library \texttt{tabular} to parse through the PDFs and pull out all relevant information.
+
+\section{Process}
+    My process consisted of 5 steps: data acquisition, data processing/cleaning, data manipulation, model creation, and model prediction.
+    \subsection{\textbf{Data Acquisition:}}
+        I acquired data from the sources listed in Section 2, \texttt{data.world} and the NCAA website.  The research involved in this step was not too difficult, even though it did take a good amount of time to find the correct regular season data.  One issue I ran into was that the NCAA only began using a standard organization pattern for their data in 2000.  This then created the issue of not having as much data as I would have hoped.
+    \subsection{\textbf{Data Processing/Cleaning:}}
+        This step took the longest in my process.  In order to have usable data, I had to parse through PDF files using a Pythong library, \texttt{tabular}.  This created CSV files of information stored in tables, but it still needed some touching up.  I used regular expressions and a few manual adjustments to correct some irregularities in my data after pulling it from the PDFs.
+    \subsection{\textbf{Data Manipulation:}}
+        Manipulating the data so that I had one source to pull from took a long time as well.  I had to take data from the March Madness tournament history (individual games) and combine that with regular season results (record, RPI, ranking, etc.).  By doing this, I was making it much easier to create a dataframe using Python's \texttt{sklearn} package.
+    \subsection{\textbf{Model Creation:}}
+        Finally it was time to create the model.  Using \texttt{sklearn} let me streamline the process because of their built in \texttt{RandomForestClassifier}.  I was able to read in my custom CSV file (\texttt{/src/csv/all\_data\_combined.csv}) and create a dataframe.  I then manipulated the data by using one-hot encoding and created testing and training sets randomly.  I used the \texttt{StandardScalar} to transform the data correctly and finally fitted it on my tesing data.
+    \subsection{\textbf{Model Prediction:}}
+        After all this work, I was finally able to predict results using my testing data.  I began with one random forest, and tweaked the hyperparameters to find the best accuracy.  With a single random forest, I was able to achieve a 75\% accuracy.  This forest consisted of 500 trees and used a 95/5 split on training and testing data.\\
+        However, that made me wonder if multiple forests could be used to achieve a higher accuracy.  After this, I used a voting classifier consiting of 5 RFs with the following number of trees: 150, 250, 500, 750, 900.  This classifier was able to achieve an accuracy of 77\%, a slight increase, but not enough to make a huge difference.
+
+\section{Deliverables}
+    In my submission, I have included the original data (\texttt{data/}), the source code, (\texttt{src/}), the manipulated data (\texttt{src/csv/}), pickled classifiers (\texttt{src/pck/}, the voting classifier is compressed in a zip file because GitHub would not let me upload the file due to its size (\~300 MB)), and a few result visualizations (\texttt{results/}).  The \texttt{results/} directory contains my simulation of the 2020 March Madness tournament.  I used the original tournament seedings found on \href{https://projects.fivethirtyeight.com/2020-march-madness-predictions/}{FiveThirtyEight's tournament predictions}.  Due to the nature of the tournament, I had to run my prediction round by round, while updating the CSV files as I went.\\
+    In the \texttt{src/} directory, there are 6 Python files.
+    \begin{itemize}
+        \item \texttt{get\_data.py}:  Used in acquiring data from PDFs
+        \item \texttt{adjust\_data.py}:  Used in data processing. Parsed through all the data and saved the most important features.  Saved all the data in a Python dictionary which was then pickled to be easily accessible.
+        \item \texttt{combine\_data.py}  Used in data manipulation.  Combined data from March Madness history and NCAA regular season history.
+        \item \texttt{rewrite\_data.py} Used in data cleaning.  Used regular expressions to remove some unwanted characters.
+        \item \texttt{predict.py}  MODELS.  Created, fitted, and predicted using testing and training data combined from \texttt{combine\_data.py}.
+        \item \texttt{predict\_2020.py}  Used to simulate the 2020 March Madness tournament round by round.
+    \end{itemize}
+
+\section{Running the Code}
+    In \texttt{src/predict.py}, there exists all the code that is necessary to run the model.  The user simply has to unzip the \texttt{top\_clasifier\_vc.pck.zip} file and then run \texttt{src/predict.py} from the root directory.  The console should show results from the classification.  There is a lot of commented out code in \texttt{src/predict.py}; all of it was necessary in creating the original classifiers.
+
+\section{Conclusion}
+    Overall, I was content with how my model performed.  I do believe that there are ways I could have improved it, however, due to the nature of sporting events, there is never a way to truly predict who will win a certain game.\\
+    I am glad that I chose this topic.  I found myself constantly thinking about ways I could improve the model and its accuracy.  I was able to implement a few of my own ideas which, I was pleased to find out, actually improved its performance.  It was also interesting to see which features were most important when making a decision.\\
+    This project made me a better programmer, because it forced me to build something from the ground up.  Instead of relying on starter code to point me in the right direction, I was forced to think deeper about how to implement certain things.  I was also forced to find my own data, which proved to be one of the more difficult parts of this project.  It pushed me to become better, something that I was grateful for.
+% \section{Risks}
+%     There are many risks involved with a project like this.  These range from personal risks to implementation risks.
+%     \subsection{Time}
+%         Between my school load (17 credit hours), work load (15 hours/week) and family time with my wife and daughter, there is not as much time as would generally be needed with a project like this.  Subjectively, CS 5600 is one of my favorite classes and it will not be a hassle to spend time on a project that I enjoy.
+%     \subsection{Scope}
+%         There is a chance that halfway through this project I realize that this will take more time than I have available to work on it.  One way to get around this risk is by planning and doing it well.  The schedule created may need to be adjusted, but I will try to hold to it as tight as I can.
+%     \subsection{Knowledge}
+%         There is a risk that what I am trying to accomplish is too far beyond my abilities and expertise that I have gained from taking this class.  In order to help with this issue, I will need to utilize resources such as online tools (StackOverflow, GitHub, etc.), documentation, and arguably the most important resource, ideas from peers and professors alike.
+
+% \section{Schedule}
+%     Figure 1 contains a weekly schedule of events that will need to be finished in order to stay on target.
+%     \begin{figure}[H]
+%         \centering
+%         \begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+%             \hline
+%             \textbf{Date} & \textbf{Tasks}\\
+%             \hline
+%             Nov. 7 & Project proposal complete\\
+%             \hline
+%             Nov. 14 & Data collected and compiled.  Formatted in a way that is easy to understand.\\
+%             \hline
+%             Nov. 21 & Data organized in code (numpy arrays?).  Implementation of RF has begun and is underway.\\
+%             \hline
+%             Nov. 28 & Implementation continues (Thanksgiving week)\\
+%             \hline
+%             Dec. 5 & Preliminary implementation of RF complete.  Adjustments begin to fine tune the results.\\
+%             \hline
+%             Dec. 12 & Implementation complete.  Begin results and performance report.\\
+%             \hline
+%             Dec. 19 & Reports complete and submitted.\\
+%             \hline
+%         \end{tabular}
+%         \caption{Schedule for Project 2}
+%     \end{figure}
+\end{document}

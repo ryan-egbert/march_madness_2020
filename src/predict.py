@@ -11,7 +11,7 @@ from subprocess import call
 import pickle as pck
 
 # Name of completed data
-CSV = "csv/all_data_combined.csv"
+CSV = "src/csv/all_data_combined.csv"
 
 # Read CSV into dataframe and drop necessary columns
 features = pd.read_csv(CSV)
@@ -51,9 +51,11 @@ x_test = sc.transform(x_test)
 # Train the classifier
 # classifier = RandomForestClassifier(n_estimators=500, random_state=75)
 # classifier.fit(x_train, y_train)
-with open('csv/single_rf.pck', 'rb') as p:
+
+# Load classifier from pickled file
+with open('src/pck/top_classifier.pck', 'rb') as p:
     classifier = pck.load(p)
-    
+
 y_pred = classifier.predict(x_test)
 print(y_pred)
 print(f"============== Classifier ==============")
@@ -73,14 +75,7 @@ feature_importances = [(feature, round(importance, 2)) for feature, importance i
 feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
 [print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances];
 
-
-'''
-This was my attempt to use a voting classifier with several
-different types of classifiers.  I was never able to exceed
-the accuracy that I produces with a single random forest, 
-however.
-'''
-
+# # Voting Classifier
 # classifier1 = RandomForestClassifier(n_estimators=150, random_state=75)
 # classifier1.fit(x_train, y_train)
 # y_pred = classifier1.predict(x_test)
@@ -145,12 +140,18 @@ however.
 # ], voting="soft")
 
 # vc.fit(x_train, y_train)
-# y_pred = vc.predict(x_test)
 
-# print("\n\n=====================\n\nAll Classifiers, Voting\n\n===================")
-# print(confusion_matrix(y_test, y_pred))
-# print(classification_report(y_test, y_pred))
-# print(accuracy_score(y_test, y_pred))
+# Load classifier from pickled file
+### This requires the user to first unzip the top_classifier_vc.pck.zip file
+with open("src/pck/top_classifier_vc.pck", 'rb') as p:
+    vc = pck.load(p)
+
+y_pred = vc.predict(x_test)
+
+print("\n\n=====================\n\nAll Classifiers, Voting\n\n===================")
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+print(accuracy_score(y_test, y_pred))
 
 # with open("top_classifier_vc.pck", 'wb') as v:
 #     pck.dump(vc, v)
